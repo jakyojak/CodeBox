@@ -13,8 +13,7 @@ for any longer.
 .PARAMETER Path
 The path to the folder where you want to conduct the recursive search in. Needs to be surrounded in quotes.
 
-.PARAMETER 
-SearchString
+.PARAMETER SearchString
 The name of the file(s) you are searching for
 
 .PARAMETER From
