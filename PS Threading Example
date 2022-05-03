@@ -1,3 +1,4 @@
+$jobs=@()
 $RPfolder="Something"
 $SkipUsers=@()
 $SkipACLs=@()
