@@ -1,0 +1,24 @@
+$RPfolder="Something"
+$SkipUsers=@()
+$SkipACLs=@()
+
+$Func = { 
+         Function getfolderinfo {
+                                 param ($RPfolder,$SkipUsers,$SkipACLs)
+                                 
+									               $RPfolder | do-stuff | Write-Output
+								                 $SkipUsers | do-stuff | Write-Output
+									               $SkipACLs | do-stuff | Write-Output
+									
+				}
+	}
+
+$jobs+=Start-Job -ScriptBlock {
+                               getfolderinfo -RPfolder $args[0] `
+                                             -Skipusers $args[1] `
+                                             -SkipACLs $args[2] } -ArgumentList $RPfolder, `
+                                                                                $SkipUsers, `
+                                                                                $SkipACLs `
+                                                                  -InitializationScript $Func
+} #start all jobs at the same time otherwise add | wait-job at the end of this line and remove from the next line
+$jobs | Wait-Job | Receive-Job 
