@@ -5,10 +5,10 @@ $SkipACLs=@()
 $Func = { 
          Function getfolderinfo {
                                  param ($RPfolder,$SkipUsers,$SkipACLs)
-                                 
-									               $RPfolder | do-stuff | Write-Output
-								                 $SkipUsers | do-stuff | Write-Output
-									               $SkipACLs | do-stuff | Write-Output
+                               
+			         $RPfolder | do-stuff | Write-Output
+				 $SkipUsers | do-stuff | Write-Output
+				 $SkipACLs | do-stuff | Write-Output
 									
 				}
 	}
