@@ -1,15 +1,22 @@
-#Uses AWS to connect to $Mailbox, searches for file matching $Subject from the last weeks worth of e-mails in inbox, perfoms a download and writes the attachment to disk.
+#Uses EWS to connect to $Mailbox, searches for file matching $Subject from the last weeks worth of e-mails in inbox, perfoms a download and writes the attachment to disk.
 #
 #   NOTES
 # - Set up a scheduled to task to run weekly
 # - Probably ran from server so will need internet/proxy set up for access to outlook.office365.com
+# - WebServices.dll can be stolen from an outlook office installation
 # - Service account obviously needs access to the mailbox
 # - Password for mailbox needs hashing using the same service account and computer that will run this script
 #   Create the hashed password by running:
 #        read-host -assecurestring | convertfrom-securestring | out-file $Password_File
 
+#Path to DLL file, probably this.
+$DLL_File = "C:\Program Files (x86)\Microsoft Office\Office16\ADDINS\Microsoft Power Query for Excel Integrated\bin\Microsoft.Exchange.WebServices.dll"
+
 #Mailbox to download from
 $Mailbox = "User@domain.com"
+
+#Service_Account
+$Service_Account = "svc_user@domain.com"
 
 #Subject to search for
 $Subject = "Subject line from e-mail"
@@ -27,7 +34,7 @@ $localDirectory = "C:\Path\to\write\attachment\ "
 #          Everything below here shouldn't need editing            #
 ####################################################################
 
-Import-Module -name "C:\Program Files (x86)\Microsoft Office\Office16\ADDINS\Microsoft Power Query for Excel Integrated\bin\Microsoft.Exchange.WebServices.dll"
+Import-Module -name $DLL_File
 
 #Decrypt password
 $SecureString = Get-Content  -Path $Password_File | ConvertTo-SecureString
@@ -42,11 +49,13 @@ $DateAfter = (get-date).AddDays(-($Num_Days_Ago))
 #Mailbox searchfilter date end
 $DateBefore = (get-date) 
     
+    #Connect to mailbox in EWS
     $exchService = New-Object Microsoft.Exchange.WebServices.Data.ExchangeService
-    $exchService.Credentials = New-Object Microsoft.Exchange.WebServices.Data.WebCredentials("svc-researchpure-email@bath.ac.uk",$AccountPW) #PW Going to get hashed
+    $exchService.Credentials = New-Object Microsoft.Exchange.WebServices.Data.WebCredentials($Service_Account,$AccountPW)
     $exchService.TraceEnabled = $true
     $exchService.url = "https://outlook.office365.com/EWS/Exchange.asmx"
    
+    #Select the folder
     $folderid = new-object Microsoft.Exchange.WebServices.Data.FolderId([Microsoft.Exchange.WebServices.Data.WellKnownFolderName]::Inbox, $Mailbox)  
     $inbox = [Microsoft.Exchange.WebServices.Data.Folder]::Bind($exchService, $folderid)
     
