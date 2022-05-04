@@ -10,25 +10,25 @@
 #        read-host -assecurestring | convertfrom-securestring | out-file $Password_File
 
 #Path to DLL file, probably this.
-$DLL_File = "C:\Program Files (x86)\Microsoft Office\Office16\ADDINS\Microsoft Power Query for Excel Integrated\bin\Microsoft.Exchange.WebServices.dll"
+[string]$DLL_File = "C:\Program Files (x86)\Microsoft Office\Office16\ADDINS\Microsoft Power Query for Excel Integrated\bin\Microsoft.Exchange.WebServices.dll"
 
 #Mailbox to download from
-$Mailbox = "User@domain.com"
+[string]$Mailbox = "User@domain.com"
 
 #Attachment name. Used in case e-mail has more than one file attached.
-$Attachment_Name = "Name of attachment.doc"
+[string]$Attachment_Name = "Name of attachment.doc"
 
 #Service_Account
-$Service_Account = "svc_user@domain.com"
+[string]$Service_Account = "svc_user@domain.com"
 
 #Subject to search for
-$Subject = "Subject line from e-mail"
+[string]$Subject = "Subject line from e-mail"
 
 #Hashed password file
-$Password_File = "C:\Path\to\hashed\password\file.txt"
+[string]$Password_File = "C:\Path\to\hashed\password\file.txt"
 
 #Download directory for attachment
-$localDirectory = "C:\Path\to\write\attachment\ "
+[string]$localDirectory = "C:\Path\to\write\attachment\ "
 
 #Search for e-mails up to a week ago
 [int]$Num_Days_Ago = 7
