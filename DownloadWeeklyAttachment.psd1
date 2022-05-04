@@ -29,6 +29,7 @@ $localDirectory = "C:\Path\to\write\attachment\ "
 
 Import-Module -name "C:\Program Files (x86)\Microsoft Office\Office16\ADDINS\Microsoft Power Query for Excel Integrated\bin\Microsoft.Exchange.WebServices.dll"
 
+#Decrypt password
 $SecureString = Get-Content  -Path $Password_File | ConvertTo-SecureString
 $AccountPW=[Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString))
 
