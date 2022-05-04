@@ -15,6 +15,9 @@ $DLL_File = "C:\Program Files (x86)\Microsoft Office\Office16\ADDINS\Microsoft P
 #Mailbox to download from
 $Mailbox = "User@domain.com"
 
+#Attachment name. Used in case e-mail has more than one file attached.
+$Attachment_Name = "Name of attachment.doc"
+
 #Service_Account
 $Service_Account = "svc_user@domain.com"
 
@@ -85,7 +88,7 @@ $DateBefore = (get-date)
     	If ($miMailItems.Subject -like $Subject) {$miMailItems.Load()}
         $miMailItems.DateTimeReceived
     	foreach($attach in $miMailItems.Attachments){
-            if ($attach.Name -like "projects-for-data-storage-team-*") { 
+            if ($attach.Name -like $Attachment_Name) { 
 
     write-host $attach.name
 
