@@ -1,10 +1,10 @@
-#Uses EWS to connect to $Mailbox, searches for file matching $Subject from the last weeks worth of e-mails in inbox, perfoms a download and writes the attachment to disk.
+#   Uses EWS to connect to $Mailbox, searches for file matching $Subject from the last weeks worth of e-mails in inbox, perfoms a download and writes the attachment to disk.
 #
 #   NOTES
 # - Set up a scheduled to task to run weekly
 # - Probably ran from server so will need internet/proxy set up for access to outlook.office365.com
 # - WebServices.dll can be stolen from an outlook office installation
-# - Service account obviously needs access to the mailbox
+# - $Service_Account obviously needs access to the mailbox
 # - Password for mailbox needs hashing using the same service account and computer that will run this script
 #   Create the hashed password by running:
 #        read-host -assecurestring | convertfrom-securestring | out-file $Password_File
