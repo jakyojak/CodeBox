@@ -15,7 +15,7 @@ Function Configure-NewAZShare {
 if ([string]::IsNullOrEmpty($(Get-AzContext).Account)) {Connect-AzAccount}
 
 if ([string]::IsNullOrEmpty($Subscription)) {#If context hasn't been specified
-                                             Write-Host "WARNING: Parameter '-subscription' not set, defaulting to: uob-prd" -ForegroundColor Yellow
+                                             Write-Host "WARNING: Parameter '-subscription' not set, defaulting to: $($Default_AZSubscription)" -ForegroundColor Yellow
                                              try {
                                                   Set-AzContext $Default_AZSubscription | Out-Null
                                                   $AZcontext=(Get-AzContext).subscription.name
@@ -160,7 +160,7 @@ try {
     catch {Throw "Error applying new ACLS for $($AdminGroup)"}
 Write-Host "Done" -ForegroundColor Green
 
-} else {Write-Host "WARNING: Parameter '-AdminGroup' not set. No ACLs will be applied for IT supporter access" -ForegroundColor Yellow}
+} else {Write-Host "WARNING: Parameter '-AdminGroup' not set. No ACLs will be applied for additional access" -ForegroundColor Yellow}
         Write-Host ""
    
 Write-Host "Navigating away from mapped drive $($PS_Drive_params.name).." -NoNewline
