@@ -29,7 +29,7 @@ if ([string]::IsNullOrEmpty($Subscription)) {#If context hasn't been specified
                                                        $AZcontext=(Get-AzContext).subscription.name
                                                        }
                                                        catch {Throw "Error setting context to subscription: $($subscription)"} 
-
+                                                  }
 Write-Host "Finding resource group $($ResourceGroup) in $($AZcontext).." -NoNewline
 try {
      $AZResourceGroup = Get-AzResourceGroup -Name $ResourceGroup -ea SilentlyContinue
