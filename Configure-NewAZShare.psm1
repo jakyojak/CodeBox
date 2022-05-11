@@ -174,5 +174,4 @@ Write-Host ""
 
 Write-Host "Task complete" -ForegroundColor Green
 }
-}
 #Export-ModuleMember -function New-ConfigureAZShare   
