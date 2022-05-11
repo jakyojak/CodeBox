@@ -56,24 +56,27 @@ Write-Host "Done" -ForegroundColor Green
 
 try {
     #find an unused drive
-    $PSDrive_Mappings=((Get-PSDrive -PSProvider filesystem).name)
+    $PSDrive_Mappings=((Get-PSDrive).name) | % {$_}
     do {
     $letter=-join ((65..90) + (97..122) | Get-Random -Count 1 | % {[char]$_})}
     until ($PSDrive_Mappings -notcontains $letter)
 
      $PS_Drive_params = @{ 
-         Name = $letter 
-         PSProvider = "FileSystem"
-         Root = "\\$($AZStorageAccount.StorageAccountName).file.core.windows.net\$($Share)"
-         Persist = $false
-         Credential = [pscredential]::new("localhost\$($AZStorageAccount.StorageAccountName)",$Key_PW)
-     }
+                          Name = $letter 
+                          PSProvider = "FileSystem"
+                          Root = "\\$($AZStorageAccount.StorageAccountName).file.core.windows.net\$($Share)"
+                          Persist = $false
+                          Credential = [pscredential]::new("localhost\$($AZStorageAccount.StorageAccountName)",$Key_PW)
+                         }
 
-        Write-Host "Mapping drive using keberos key.." -NoNewline
-        New-PSDrive @PS_Drive_params | Out-Null
+Write-Host "Mapping drive $($letter): using keberos key.." -NoNewline
+        New-PSDrive @PS_Drive_params -ea Ignore | Out-Null
+        if ([string]::IsNullOrEmpty((Get-PSDrive -Name $letter))) {Get-Service workstation | Restart-Service -Force
+                                                                   New-PSDrive @PS_Drive_params -ea Stop}
     }
     catch { Throw "ERROR mapping drive: $StorageAccount to drive $letter using kerberos key"}
 Write-Host "Done" -ForegroundColor Green
+
 try {
      Set-Location "$($PS_Drive_params.name):"
     }
