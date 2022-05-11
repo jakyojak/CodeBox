@@ -56,7 +56,7 @@ Write-Host "Done" -ForegroundColor Green
 
 try {
     #find an unused drive
-    $PSDrive_Mappings=((Get-PSDrive -PSProvider filesystem).name) | % {$_}
+    $PSDrive_Mappings=((Get-PSDrive -PSProvider filesystem).name)
     do {
     $letter=-join ((65..90) + (97..122) | Get-Random -Count 1 | % {[char]$_})}
     until ($PSDrive_Mappings -notcontains $letter)
