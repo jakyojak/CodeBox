@@ -4,7 +4,7 @@ Function Configure-NewAZShare {
     [Parameter(Mandatory=$True,HelpMessage="The name of the storage account")] [string]$StorageAccount,
     [Parameter(Mandatory=$True,HelpMessage="The name of the resourcegroup")] [string]$ResourceGroup,
     [Parameter(Mandatory=$True,HelpMessage="The name of the file share")] [string]$Share,
-    [Parameter(Mandatory=$false,HelpMessage="The name of an additional admin group in AD"))][string]$AdminGroup,
+    [Parameter(Mandatory=$false,HelpMessage="The name of an additional admin group in AD")][string]$AdminGroup,
     [Parameter(Mandatory=$false,HelpMessage="The name of the subscription (if different from default")][string]$Subscription)
     
     [string]$Default_AZSubscription="Set default subscription here"
