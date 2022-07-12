@@ -1,3 +1,6 @@
+#Track AD object deletions. User, group and computers.
+#Run daily at 23:59:30
+
 Write-Host "Any errors should show up here in the log"
 Write-Host ""
 $date=(get-date)
