@@ -5,7 +5,7 @@
 # - Probably ran from server so will need internet/proxy set up for access to outlook.office365.com
 # - WebServices.dll can be stolen from an outlook office installation
 # - $Service_Account obviously needs access to the mailbox
-# - Password for mailbox needs hashing using the same service account and computer that will run this script
+# - Password for the service account that has access to the mailbox needs hashing whilst logged on to the same computer that will run this script
 #   Create the hashed password by running:
 #        read-host -assecurestring | convertfrom-securestring | out-file $Password_File
 
