@@ -1,7 +1,7 @@
 #   Uses EWS to connect to $Mailbox, searches for file matching $Subject from the last weeks worth of e-mails in inbox, perfoms a download and writes the attachment to disk.
 #
 #   NOTES
-# - Set up a scheduled to task to run weekly
+# - Set up a scheduled task to run weekly
 # - Probably ran from server so will need internet/proxy set up for access to outlook.office365.com
 # - WebServices.dll can be stolen from an outlook office installation
 # - $Service_Account obviously needs access to the mailbox
