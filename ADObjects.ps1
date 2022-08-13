@@ -1,4 +1,5 @@
 #Track AD object deletions. User, group and computers.
+#Set read-only flag on $CSV_ADObjects_Yesterday to prevent Excel from putting a write-lock on the file.
 #Run daily at 23:59:30
 
 Write-Host "Any errors should show up here in the log"
@@ -35,11 +36,7 @@ If ($ADObjects_Missing.count -gt 0) {
                                     [array]$Deleted_ADObjects = Import-Csv $Deleted_ADObjects_CSV
                                     [array]$Deleted_ADObjects=[array]$Deleted_ADObjects+[array]$ADObjects_Missing
 
-                                    #-ErrorAction Stop on the line 43 will mean that if ADObjects_Deleted.csv doesn't get updated this will preserve the difference of 
-                                    # AD objects inside of ADObjects_Today.csv as the export won't run on line 43.
-                                    #On the next successful write of ADObjects_Deleted.csv the script will update ADObjects_Today.csv, albeit with offset DateDeleted Timestamps
-                                    #So, don't keep the ADObjects_Deleted.csv open in Excel as it will prevent this script from performing a successful write, or if you do, open it in
-                                    # read-only mode. Using notepad is fine.
+                                    
                                     $Deleted_ADObjects |% {$_.datedeleted = ([datetime]::Parse($_.datedeleted,([Globalization.CultureInfo]::CreateSpecificCulture('en-GB'))))}
                                     $Deleted_ADObjects = $Deleted_ADObjects | Sort-Object -Property DateDeleted -Descending 
                                     $Deleted_ADObjects |% {$_.datedeleted = ($_.datedeleted).ToShortDateString()}
