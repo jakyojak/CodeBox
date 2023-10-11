@@ -1,4 +1,6 @@
 Remove-Variable * -ErrorAction SilentlyContinue
+
+#Enforce TLS 1.2 for web requests
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $ADStorageaccountComputer=@()
 $StorageAccountName = Read-Host "Enter storage account name" # i.e. uobprdsaaf<department>
@@ -40,22 +42,22 @@ Set-AzStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccount
 -EnableActiveDirectoryDomainServicesForFile $true `
 -ActiveDirectoryDomainName "campus.bath.ac.uk" `
 -ActiveDirectoryNetBiosDomainName "CAMPUS" `
--ActiveDirectoryForestName "rd4b.bath.ac.uk" `
--ActiveDirectoryDomainGuid "90299eb6-341e-4f6d-be22-60a55e8fcc9a" `
--ActiveDirectoryDomainsid "S-1-5-21-1078081533-789336058-839522115" `
+-ActiveDirectoryForestName "SUBDOMAIN REDACTED.bath.ac.uk" `
+-ActiveDirectoryDomainGuid "GUID REDACTED" `
+-ActiveDirectoryDomainsid "SID REDACTED" `
 -ActiveDirectoryAzureStorageSid $($ADStorageaccountComputer.SID)
 
 # Set the default permission on the whole storage account (new shares will have this applied to them)
 $defaultPermission = "StorageFileDataSmbShareContributor"
 Set-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName $StorageAccountName -DefaultSharePermission $defaultPermission -Verbose
 
-#Give uob-devops-DDaT-ServersStorage-Contrib owner access on the resourcegroup
-$SS_Contrib_Group=Get-AzADGroup -DisplayName "uob-devops-DDaT-ServersStorage-Contrib"
+#Give xxx-DDaT-ServersStorage-Contrib owner access on the resourcegroup
+$SS_Contrib_Group=Get-AzADGroup -DisplayName "REDACTED-DDaT-ServersStorage-Contrib"
 $Role_Owner=Get-AzRoleDefinition -Name "owner"
 New-AzRoleAssignment -ObjectId $SS_Contrib_Group.id -RoleDefinitionName $Role_Owner.name -Scope $ResourceGroup.ResourceId
 
 #Apply more permissions on the storage account (for full control access for admin groups)
-$Gr_NASAdmins_Group = Get-AzADGroup -DisplayName "gr-nasadmins"
+$Gr_NASAdmins_Group = Get-AzADGroup -DisplayName "REDACTED Group-nasadmins"
 $FileShareElevatedContributorRole = Get-AzRoleDefinition "Storage File Data SMB Share Elevated Contributor" #Full Control access
 New-AzRoleAssignment -ObjectId $Gr_NASAdmins_Group.id -RoleDefinitionName $FileShareElevatedContributorRole.Name -Scope $ResourceGroup.ResourceId
 
@@ -65,7 +67,7 @@ Update-AzStorageAccountADObjectPassword -RotateToKerbKey kerb1 -ResourceGroupNam
 #Run a check
 Debug-AzStorageAccountAuth -StorageAccountName $StorageAccountName -ResourceGroupName $ResourceGroupName -Verbose
 
-#Use Configure-NewAZShare to apply default NTFS ACLS on the root and give gr-nasadmins access, or do manually using
+#Use Configure-NewAZShare to apply default NTFS ACLS on the root and give $Gr_NASAdmins_Group access, or do manually using
 #net use Y: \\uobprdsaaflibrary.file.core.windows.net\deptdata /user:localhost\uobprdsaaflibrary <insert one of the two kerberos keys here from Azure>
 
 #Assign back up resource prd-rsv-apps-1
