@@ -1,3 +1,5 @@
+#Script for connecting an Azure Storage account to on-prem AD.
+
 Remove-Variable * -ErrorAction SilentlyContinue
 
 #Enforce TLS 1.2 for web requests
